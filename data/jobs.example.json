@@ -1,0 +1,20 @@
+[
+  {
+    "company": "OpenAI",
+    "job_title": "Developer Advocate",
+    "location": "Remote",
+    "job_url": "https://openai.com/careers/developer-advocate",
+    "salary_range": "$180k-$250k",
+    "status": "applied",
+    "last_updated": "2025-09-08T16:08:27.197629"
+  },
+  {
+    "company": "Google",
+    "job_title": "Technical Evangelist",
+    "location": "San Francisco, CA",
+    "job_url": "https://google.com/careers/technical-evangelist",
+    "salary_range": "$200k-$280k",
+    "status": "found",
+    "last_updated": "2025-09-08T16:08:27.197473"
+  }
+]

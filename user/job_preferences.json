@@ -1,0 +1,61 @@
+{
+    "target_roles": [
+        "Developer Advocate",
+        "Developer Relations Engineer",
+        "Technical Evangelist",
+        "Developer Experience Engineer",
+        "DevRel Engineer",
+        "Community Engineer",
+        "Technical Content Creator"
+    ],
+    "min_salary": 150000,
+    "max_salary": 250000,
+    "preferred_companies": [
+        "OpenAI",
+        "Anthropic",
+        "Google",
+        "Microsoft",
+        "Meta",
+        "Vercel",
+        "Supabase",
+        "Stripe",
+        "Twilio",
+        "MongoDB",
+        "Cloudflare",
+        "GitHub",
+        "HashiCorp",
+        "Databricks"
+    ],
+    "technologies_to_advocate": [
+        "AI/ML",
+        "Cloud Services (AWS)",
+        "React/TypeScript",
+        "GraphQL",
+        "Python",
+        "Web3",
+        "System Design",
+        "Full Stack Development",
+        "Developer Tools"
+    ],
+    "content_platforms": [
+        "YouTube",
+        "Technical Blogs",
+        "Conference Speaking"
+    ],
+    "locations": [
+        "San Francisco",
+        "Seattle",
+        "Vancouver",
+        "Remote"
+    ],
+    "remote_preference": "Remote preferred",
+    "travel_willingness": "Up to 25% for conferences",
+    "years_experience": 5,
+    "content_creation_experience": "3+ years YouTube, 300+ videos, 20K+ subscribers",
+    "automation_settings": {
+        "max_applications_per_run": 3,
+        "auto_apply_after_search": true,
+        "require_manual_approval": false,
+        "application_delay_seconds": 30
+    }
+}

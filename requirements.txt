@@ -1,0 +1,14 @@
+# Core dependencies for Claude Computer Use job automation
+hyperbrowser==0.55.0
+python-dotenv==1.1.1
+PyPDF2==3.0.1
+
+# Optional: Custom Anthropic API usage (if not using Hyperbrowser's built-in Claude)
+anthropic
+
+# Enhanced logging with cross-platform color support
+colorama==0.4.6
+
+# Other dependencies (automatically installed with hyperbrowser)
+pandas==2.3.2
+numpy==2.3.2
