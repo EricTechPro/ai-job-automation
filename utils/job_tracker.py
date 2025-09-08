@@ -19,14 +19,6 @@ class JobStatus(Enum):
     FOUND = "found"                    # Job found but not yet reviewed
     REVIEWED = "reviewed"              # Job reviewed and marked for application
     APPLIED = "applied"                # Application submitted
-    IN_PROGRESS = "in_progress"        # Application in progress
-    REJECTED = "rejected"              # Application rejected or not suitable
-    INTERVIEW = "interview"            # Interview scheduled
-    OFFER = "offer"                    # Offer received
-    DECLINED = "declined"              # Offer declined
-    ACCEPTED = "accepted"              # Offer accepted
-    WITHDRAWN = "withdrawn"            # Application withdrawn
-    EXPIRED = "expired"                # Job posting expired
 
 
 class JobTracker:
@@ -271,9 +263,7 @@ class JobTracker:
             "by_status": {},
             "by_company": {},
             "by_job_board": {},
-            "applied_count": 0,
-            "interview_count": 0,
-            "offer_count": 0
+            "applied_count": 0
         }
         
         for job in self.jobs.values():
@@ -292,10 +282,6 @@ class JobTracker:
             # Count specific statuses
             if status == JobStatus.APPLIED.value:
                 stats["applied_count"] += 1
-            elif status == JobStatus.INTERVIEW.value:
-                stats["interview_count"] += 1
-            elif status == JobStatus.OFFER.value:
-                stats["offer_count"] += 1
         
         return stats
     
@@ -339,10 +325,6 @@ class JobTracker:
         if stats['applied_count'] > 0:
             logger.success(f"\n✅ Applications Submitted: {stats['applied_count']}")
         
-        if stats['interview_count'] > 0:
-            logger.success(f"🎯 Interviews Scheduled: {stats['interview_count']}")
-        
-        if stats['offer_count'] > 0:
-            logger.success(f"🎉 Offers Received: {stats['offer_count']}")
+        # Simplified workflow - only tracking applications
         
         logger.separator()

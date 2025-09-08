@@ -56,7 +56,7 @@ python3 main.py
 
 **JobTracker** (`utils/job_tracker.py:29`)
 - Persistent JSON-based job database
-- Status tracking: FOUND → REVIEWED → APPLIED → INTERVIEW → OFFER
+- Status tracking: FOUND → REVIEWED → APPLIED
 - Export capabilities and comprehensive statistics
 - Automatic backups and duplicate detection
 

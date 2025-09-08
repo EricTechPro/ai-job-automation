@@ -322,9 +322,8 @@ class AIJobBot:
         """
         logger.process(f"Starting application for: {job_url}")
         
-        # Update job status if tracked
-        if job_id:
-            self.job_tracker.update_job_status(job_id, JobStatus.IN_PROGRESS, "Starting application")
+        # Job status will be updated to APPLIED when successful
+        # No need to update status during application process
         
         # Prepare application data
         application_data = {
@@ -384,13 +383,10 @@ class AIJobBot:
         else:
             logger.error(f"Application failed: {application_result['error']}")
             
-            # Update job status if tracked
+            # Leave job status unchanged when application fails
+            # User can manually review and retry later
             if job_id:
-                self.job_tracker.update_job_status(
-                    job_id, 
-                    JobStatus.REJECTED, 
-                    f"❌ Application failed: {application_result['error']}"
-                )
+                logger.info(f"Job {job_id} remains available for retry")
             
             return False
 

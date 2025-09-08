@@ -54,7 +54,7 @@ ai-browser-automation/
 
 ### 2. **Application Tracking**
 - Persistent JSON database of all jobs found
-- Status tracking: FOUND → REVIEWED → APPLIED → INTERVIEW → OFFER
+- Status tracking: FOUND → REVIEWED → APPLIED
 - Timestamped notes and updates
 - CSV export for analysis
 
