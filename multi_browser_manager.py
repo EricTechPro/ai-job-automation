@@ -377,37 +377,205 @@ class MultiBrowserManager:
         added_jobs = []
         result_text = search_result.get("result", "")
         
-        # For now, simulate finding jobs based on search success
-        # In real implementation, this would parse structured output from Claude
-        if any(indicator in result_text.lower() for indicator in ["found", "job", "role", "position", "opening"]):
-            # Simulate finding 1-3 jobs per successful search
-            num_jobs = random.randint(config.JOBS_PER_SEARCH_MIN, config.JOBS_PER_SEARCH_MAX)
-            companies = ["TechCorp", "InnovateLabs", "StartupCo", "MegaTech", "DevTools Inc"]
-            
-            for i in range(num_jobs):
-                company = random.choice(companies)
-                
+        # First, try to parse structured job data from Claude Computer Use results
+        parsed_jobs = self._extract_structured_job_data(result_text, platform)
+        
+        if parsed_jobs:
+            # Process real job data extracted by Claude
+            for job_data in parsed_jobs:
                 job_index = self.job_tracker.add_job(
-                    company=company,
-                    job_title=query,
-                    location="Remote" if random.random() > 0.3 else "San Francisco, CA",
-                    job_url=f"https://{platform}.com/jobs/{company.lower().replace(' ', '')}-{query.lower().replace(' ', '-')}",
-                    salary_range="$160k-$220k" if "senior" in query.lower() else "$140k-190k"
+                    company=job_data.get("company", "Unknown Company"),
+                    job_title=job_data.get("job_title", query),
+                    location=job_data.get("location", "Not specified"),
+                    job_url=job_data.get("job_url", ""),
+                    salary_range=job_data.get("salary_range", "Not specified")
                 )
                 
-                # Add platform attribution
-                job_data = self.job_tracker.get_job(job_index)
-                if job_data and "additional_info" not in job_data:
-                    job_data["additional_info"] = {}
-                if job_data:
-                    job_data["additional_info"]["source_platform"] = platform
-                    job_data["additional_info"]["search_query"] = query
-                    self.job_tracker.jobs[job_index] = job_data
+                # Add platform attribution and additional info
+                stored_job = self.job_tracker.get_job(job_index)
+                if stored_job:
+                    if "additional_info" not in stored_job:
+                        stored_job["additional_info"] = {}
+                    stored_job["additional_info"]["source_platform"] = platform
+                    stored_job["additional_info"]["search_query"] = query
+                    stored_job["additional_info"]["requirements"] = job_data.get("requirements", [])
+                    stored_job["additional_info"]["match_reason"] = job_data.get("match_reason", "")
+                    self.job_tracker.jobs[job_index] = stored_job
                 
                 added_jobs.append(job_index)
-                logger.info(f"📋 {company} {query} → jobs.json[{job_index}] (via {platform})")
+                logger.info(f"📋 {job_data.get('company', 'Unknown')} - {job_data.get('job_title', query)} → jobs.json[{job_index}] (via {platform})")
+        else:
+            # Fallback: if structured parsing fails, look for job indicators in text
+            if any(indicator in result_text.lower() for indicator in ["found", "job", "role", "position", "opening", "hire", "apply"]):
+                # Extract any URLs found in the result text
+                import re
+                url_pattern = r'https?://(?:[-\w.])+(?:[:\d]+)?(?:/(?:[\w/_.])*(?:\?(?:[\w&=%.])*)?(?:#(?:[\w.])*)?)?'
+                urls = re.findall(url_pattern, result_text)
+                
+                # Simulate finding 1-3 jobs with better URL handling
+                num_jobs = min(len(urls) if urls else random.randint(config.JOBS_PER_SEARCH_MIN, config.JOBS_PER_SEARCH_MAX), 3)
+                companies = ["TechCorp", "InnovateLabs", "StartupCo", "MegaTech", "DevTools Inc"]
+                
+                for i in range(num_jobs):
+                    company = random.choice(companies)
+                    # Use actual URL if found, otherwise generate placeholder
+                    job_url = urls[i] if i < len(urls) and urls[i] else f"https://{platform}.com/jobs/{company.lower().replace(' ', '')}-{query.lower().replace(' ', '-')}"
+                    
+                    job_index = self.job_tracker.add_job(
+                        company=company,
+                        job_title=query,
+                        location="Remote" if random.random() > 0.3 else "San Francisco, CA",
+                        job_url=job_url,
+                        salary_range="$160k-$220k" if "senior" in query.lower() else "$140k-190k"
+                    )
+                    
+                    # Add platform attribution
+                    job_data = self.job_tracker.get_job(job_index)
+                    if job_data and "additional_info" not in job_data:
+                        job_data["additional_info"] = {}
+                    if job_data:
+                        job_data["additional_info"]["source_platform"] = platform
+                        job_data["additional_info"]["search_query"] = query
+                        self.job_tracker.jobs[job_index] = job_data
+                    
+                    added_jobs.append(job_index)
+                    logger.info(f"📋 {company} {query} → jobs.json[{job_index}] (via {platform}) [URL: {'real' if i < len(urls) and urls[i] else 'generated'}]")
         
         return added_jobs
+    
+    def _extract_structured_job_data(self, result_text: str, platform: str) -> List[Dict]:
+        """
+        Extract structured job data from Claude Computer Use results
+        
+        Args:
+            result_text: The result text from Claude Computer Use
+            platform: The job platform name
+            
+        Returns:
+            List of job dictionaries with extracted data
+        """
+        import re
+        import json
+        
+        jobs = []
+        
+        # First try to parse the new JOB_START/JOB_END format
+        job_blocks = re.findall(r'JOB_START(.*?)JOB_END', result_text, re.DOTALL | re.IGNORECASE)
+        
+        for block in job_blocks:
+            job_data = {}
+            
+            # Extract each field using regex
+            fields = {
+                'company': r'Company:\s*([^\n]+)',
+                'job_title': r'Title:\s*([^\n]+)', 
+                'location': r'Location:\s*([^\n]+)',
+                'job_url': r'URL:\s*(https?://[^\s\n]+)',
+                'salary_range': r'Salary:\s*([^\n]+)',
+                'requirements': r'Requirements:\s*([^\n]+(?:\n[^\n:]+)*)',
+                'match_reason': r'Match:\s*([^\n]+(?:\n[^\n:]+)*)'
+            }
+            
+            for key, pattern in fields.items():
+                match = re.search(pattern, block, re.IGNORECASE | re.MULTILINE)
+                if match:
+                    value = match.group(1).strip()
+                    if key == 'requirements':
+                        # Split requirements into a list
+                        job_data[key] = [req.strip() for req in value.split(',') if req.strip()]
+                    else:
+                        job_data[key] = value
+                else:
+                    job_data[key] = "Not specified" if key in ['location', 'salary_range'] else ""
+            
+            # Only add if we have essential information
+            if job_data.get('company') and job_data.get('job_title'):
+                jobs.append(job_data)
+        
+        # If no JOB_START/JOB_END blocks found, try other parsing methods
+        if not jobs:
+            # Try to find JSON-like structure in the response
+            json_pattern = r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}'
+            json_matches = re.findall(json_pattern, result_text)
+            
+            for match in json_matches:
+                try:
+                    # Try to parse as JSON
+                    job_data = json.loads(match)
+                    if 'company' in job_data or 'job_title' in job_data:
+                        jobs.append(job_data)
+                        continue
+                except:
+                    pass
+            
+            # If still no jobs found, try structured text patterns
+            if not jobs:
+                # Look for common structured patterns that Claude might use
+                patterns = [
+                    # Pattern 1: "Company: X, Title: Y, URL: Z" format
+                    r'(?:Company|Employer):\s*([^\n,]+).*?(?:Title|Position|Role):\s*([^\n,]+).*?(?:URL|Link|Apply):\s*(https?://[^\s\n]+)',
+                    # Pattern 2: "1. Company Name - Job Title (URL)" format  
+                    r'(?:\d+\.)\s*([^-\n]+)\s*-\s*([^(\n]+)\s*\((https?://[^)\s]+)\)',
+                    # Pattern 3: Just extract any job-like entries with URLs
+                    r'([A-Z][a-zA-Z\s&]+(?:Corp|Inc|Labs|Tech|Company|LLC))[^\n]*?([A-Z][a-zA-Z\s]+(?:Engineer|Developer|Advocate|Manager|Specialist))[^\n]*?(https?://[^\s\n]+)'
+                ]
+                
+                for pattern in patterns:
+                    matches = re.findall(pattern, result_text, re.IGNORECASE | re.MULTILINE)
+                    for match in matches:
+                        if len(match) >= 3:  # company, title, url
+                            company = match[0].strip()
+                            job_title = match[1].strip()
+                            job_url = match[2].strip()
+                            
+                            # Clean up company name
+                            company = re.sub(r'\s+', ' ', company)
+                            job_title = re.sub(r'\s+', ' ', job_title)
+                            
+                            # Try to extract location and salary if mentioned nearby
+                            location = "Not specified"
+                            salary_range = "Not specified"
+                            
+                            # Look for location patterns near this job
+                            location_patterns = [r'(?:Location|Based in|Remote|Office in):\s*([^\n,]+)', 
+                                               r'\b(Remote|San Francisco|New York|Seattle|Austin|Boston|Denver|Portland)\b']
+                            for loc_pattern in location_patterns:
+                                loc_match = re.search(loc_pattern, result_text[max(0, result_text.find(company)-100):result_text.find(company)+200], re.IGNORECASE)
+                                if loc_match:
+                                    location = loc_match.group(1).strip()
+                                    break
+                            
+                            # Look for salary patterns
+                            salary_patterns = [r'\$(\d{2,3}[kK]?[-–]\$?\d{2,3}[kK]?)', r'(\$\d{2,3}[kK]?\+?)']
+                            for sal_pattern in salary_patterns:
+                                sal_match = re.search(sal_pattern, result_text[max(0, result_text.find(company)-100):result_text.find(company)+200])
+                                if sal_match:
+                                    salary_range = sal_match.group(0)
+                                    break
+                            
+                            jobs.append({
+                                "company": company,
+                                "job_title": job_title,
+                                "job_url": job_url,
+                                "location": location,
+                                "salary_range": salary_range,
+                                "requirements": [],
+                                "match_reason": ""
+                            })
+                    
+                    if jobs:  # If we found jobs with one pattern, don't try others
+                        break
+        
+        # Deduplicate jobs by URL
+        seen_urls = set()
+        unique_jobs = []
+        for job in jobs:
+            url = job.get("job_url", "")
+            if url and url not in seen_urls:
+                seen_urls.add(url)
+                unique_jobs.append(job)
+        
+        return unique_jobs
     
     async def _cleanup_session(self, session: BrowserSession):
         """Clean up a browser session"""

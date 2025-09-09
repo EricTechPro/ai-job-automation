@@ -150,17 +150,23 @@ class BrowserAgent:
         1. Navigate to {platform_url}
         2. Search for "{job_search_query}"
         3. Review first 5-10 job listings
-        4. For each relevant job, extract:
-           - Job title
-           - Company name
-           - Location (remote/hybrid/onsite and city if applicable)
-           - Key requirements (top 3-5 bullet points)
-           - Why it's a good match based on the candidate's profile
-           - Application link or how to apply
-           - Salary range (if available)
-        5. Return the results in a structured format
+        4. For each relevant job, extract information and format it EXACTLY like this:
+
+        JOB_START
+        Company: [Company Name]
+        Title: [Job Title]  
+        Location: [Location/Remote status]
+        URL: [Direct application URL or job posting URL]
+        Salary: [Salary range if available, otherwise "Not specified"]
+        Requirements: [Top 3-5 key requirements]
+        Match: [Why this job matches the candidate's profile]
+        JOB_END
         
-        Focus on roles matching the user's preferences and experience.
+        5. Focus on roles matching the user's preferences and experience
+        6. IMPORTANT: Always include the actual clickable job posting URL in the URL field
+        7. Extract at least 3-5 relevant jobs if available on the page
+        
+        Use the exact format above with JOB_START and JOB_END markers for each job found.
         """
         
         # Execute the search
