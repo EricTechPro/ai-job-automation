@@ -7,39 +7,39 @@ Automated job search and application system using Claude Computer Use to intelli
 ```mermaid
 graph TD
     %% User Input Layer
-    A[👤 User Input<br/>• Resume PDF<br/>• Job Preferences<br/>• Personal Info] 
-    B[🧠 AI Context<br/>• Resume Text<br/>• Personal Info<br/>• Target Roles]
-    C[⚙️ Configuration<br/>• Job Preferences<br/>• Platform Config<br/>• Anti-Detection]
+    A["👤 User Input<br/>• Resume PDF<br/>• Job Preferences<br/>• Personal Info"] 
+    B["🧠 AI Context<br/>• Resume Text<br/>• Personal Info<br/>• Target Roles"]
+    C["⚙️ Configuration<br/>• Job Preferences<br/>• Platform Config<br/>• Anti-Detection"]
     
     %% Main System
-    D[🤖 Main System<br/>(main.py)<br/>• Initialization<br/>• AI Context<br/>• Job Tracking]
+    D["🤖 Main System<br/>(main.py)<br/>• Initialization<br/>• AI Context<br/>• Job Tracking"]
     
     %% Core Components
-    E[🔄 Multi-Browser Manager<br/>• Orchestration<br/>• Concurrency<br/>• Session Mgmt]
-    F[🥷 Anti-Detection Config<br/>• Stealth Mode<br/>• Device Rotation<br/>• Delay Control]
-    G[📊 Job Tracker<br/>• Data Storage<br/>• Status Updates<br/>• JSON Export]
+    E["🔄 Multi-Browser Manager<br/>• Orchestration<br/>• Concurrency<br/>• Session Mgmt"]
+    F["🥷 Anti-Detection Config<br/>• Stealth Mode<br/>• Device Rotation<br/>• Delay Control"]
+    G["📊 Job Tracker<br/>• Data Storage<br/>• Status Updates<br/>• JSON Export"]
     
     %% Browser Sessions
-    H[🌐 Concurrent Browser Sessions]
+    H["🌐 Concurrent Browser Sessions"]
     
     %% Job Platforms  
-    I1[🔍 RemoteOK<br/>Public • No Auth]
-    I2[🔍 WeWorkRemotely<br/>Public • No Auth] 
-    I3[🔍 AngelList<br/>Public • No Auth]
-    I4[🔍 Dice<br/>Public • No Auth]
-    I5[🔍 + 8 More Sites<br/>Public • No Auth]
+    I1["🔍 RemoteOK<br/>Public • No Auth"]
+    I2["🔍 WeWorkRemotely<br/>Public • No Auth"] 
+    I3["🔍 AngelList<br/>Public • No Auth"]
+    I4["🔍 Dice<br/>Public • No Auth"]
+    I5["🔍 + 8 More Sites<br/>Public • No Auth"]
     
     %% Browser Agent
-    J[🤖 Browser Agent<br/>(browser_agent.py)<br/>• Claude Computer Use<br/>• Job Search<br/>• Form Automation<br/>• Result Processing]
+    J["🤖 Browser Agent<br/>(browser_agent.py)<br/>• Claude Computer Use<br/>• Job Search<br/>• Form Automation<br/>• Result Processing"]
     
     %% Hyperbrowser API
-    K[🌐 Hyperbrowser API<br/>• Browser Session Mgmt<br/>• Claude Computer Use<br/>• Anti-Detection<br/>• Live URLs & Recordings]
+    K["🌐 Hyperbrowser API<br/>• Browser Session Mgmt<br/>• Claude Computer Use<br/>• Anti-Detection<br/>• Live URLs & Recordings"]
     
     %% Results Processing
-    L[📈 Results Processing<br/>• Real Job URL Extraction<br/>• Structured Data Parsing<br/>• Company & Salary Info<br/>• Application Status]
+    L["📈 Results Processing<br/>• Real Job URL Extraction<br/>• Structured Data Parsing<br/>• Company & Salary Info<br/>• Application Status"]
     
     %% Output Data
-    M[💾 Output Data<br/>• jobs.json<br/>• CSV Export<br/>• Colored Logs<br/>• Live Browser URLs]
+    M["💾 Output Data<br/>• jobs.json<br/>• CSV Export<br/>• Colored Logs<br/>• Live Browser URLs"]
     
     %% Connections
     A --> B
