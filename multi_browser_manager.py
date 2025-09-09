@@ -45,6 +45,7 @@ class MultiBrowserManager:
         # Session management
         self.active_sessions: Dict[str, BrowserSession] = {}
         self.job_tracker = JobTracker()
+        self.ai_context = ""
         
         # Concurrency control from environment
         self.max_concurrent = config.MAX_CONCURRENT_BROWSERS
@@ -52,9 +53,12 @@ class MultiBrowserManager:
         
         logger.info(f"MultiBrowser manager initialized (max concurrent: {self.max_concurrent})")
     
-    async def start_concurrent_job_search(self, search_queries: List[str]) -> Dict[str, Any]:
+    async def start_concurrent_job_search(self, search_queries: List[str], ai_context: str = "") -> Dict[str, Any]:
         """Start concurrent job search across multiple platforms"""
         logger.process("Starting concurrent job search across platforms")
+        
+        # Store ai_context for use in platform sessions
+        self.ai_context = ai_context
         
         # Get enabled platforms
         enabled_platforms = self.anti_detection.get_enabled_platforms()
@@ -243,7 +247,7 @@ class MultiBrowserManager:
                 # Use the browser agent to search
                 search_result = session.browser_agent.search_and_analyze_jobs(
                     job_search_query=query,
-                    ai_context="", # Will be filled by the enhanced browser agent
+                    ai_context=self.ai_context,
                     max_steps=config.SEARCH_MAX_STEPS,
                     platform=platform
                 )
