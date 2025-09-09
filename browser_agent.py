@@ -117,39 +117,40 @@ class BrowserAgent:
                                 job_search_query: str, 
                                 ai_context: str, 
                                 max_steps: int = 50,
-                                job_boards: Optional[list] = None) -> Dict[str, Any]:
+                                platform: str = "linkedin") -> Dict[str, Any]:
         """
-        Use Claude Computer Use to search for jobs and analyze them
+        Search for jobs on specific platforms using Claude Computer Use
         
         Args:
             job_search_query: The job search query (e.g., "Developer Advocate")
             ai_context: AI context containing resume and preferences
             max_steps: Maximum steps for Claude to take
-            job_boards: List of job boards to search (defaults to major platforms)
+            platform: Job platform to search (remoteok, weworkremotely, glassdoor, etc.)
             
         Returns:
-            Dictionary with search results and session information
+            Dictionary with search results, platform info, and found jobs
         """
-        logger.process(f"Searching for jobs: '{job_search_query}'")
+        platform_urls = {
+            "remoteok": "https://remoteok.io/remote-jobs",
+            "weworkremotely": "https://weworkremotely.com/categories/remote-programming-jobs",
+            "glassdoor": "https://www.glassdoor.com/Job/jobs.htm"
+        }
         
-        # Default job boards if not specified
-        if not job_boards:
-            job_boards = ["LinkedIn", "Indeed", "or similar major job board"]
-            
-        job_boards_str = ", ".join(job_boards)
+        platform_url = platform_urls.get(platform, platform_urls["remoteok"])
+        logger.info(f"🔍 {platform.title()}: {job_search_query}")
         
         # Construct the search task for Claude
         task = f"""
-        Search for jobs matching this query: "{job_search_query}"
+        Go to {platform_url} and search for: "{job_search_query}"
         
-        Use this context to evaluate if jobs are a good match:
+        Context for job evaluation:
         {ai_context}
         
-        Please:
-        1. Go to a major job board ({job_boards_str})
-        2. Search for the specified jobs: "{job_search_query}"
-        3. Look through the first 10-15 job listings
-        4. For each job that seems like a good match, extract:
+        Tasks:
+        1. Navigate to {platform_url}
+        2. Search for "{job_search_query}"
+        3. Review first 5-10 job listings
+        4. For each relevant job, extract:
            - Job title
            - Company name
            - Location (remote/hybrid/onsite and city if applicable)
@@ -159,17 +160,22 @@ class BrowserAgent:
            - Salary range (if available)
         5. Return the results in a structured format
         
-        Focus on Developer Advocate, Developer Relations, Technical Evangelist, or similar roles at technology companies.
-        Prioritize roles that match the candidate's experience with YouTube content creation and technical expertise.
+        Focus on roles matching the user's preferences and experience.
         """
         
-        logger.debug(f"Searching on: {job_boards_str}")
-        
-        return self.execute_computer_use_task(
+        # Execute the search
+        result = self.execute_computer_use_task(
             task=task, 
             max_steps=max_steps,
             session_id=self.current_session_id
         )
+        
+        # Add platform information to result
+        if result.get("success"):
+            result["platform"] = platform
+            result["platform_url"] = platform_url
+        
+        return result
 
     def apply_to_job(self, 
                     job_url: str, 
@@ -241,99 +247,6 @@ class BrowserAgent:
             task=task, 
             max_steps=max_steps, 
             session_id=session_id or self.current_session_id
-        )
-    
-    def analyze_job_page(self, 
-                        job_url: str, 
-                        max_steps: int = 20) -> Dict[str, Any]:
-        """
-        Analyze a specific job posting page to extract detailed information
-        
-        Args:
-            job_url: URL of the job posting
-            max_steps: Maximum steps for Claude to take
-            
-        Returns:
-            Dictionary with job details and analysis
-        """
-        logger.process(f"Analyzing job page: {job_url}")
-        
-        task = f"""
-        Navigate to this job posting: {job_url}
-        
-        Please extract and analyze:
-        1. Job title and company name
-        2. Location and work arrangement (remote/hybrid/onsite)
-        3. Salary range (if available)
-        4. Required qualifications
-        5. Preferred qualifications
-        6. Job responsibilities
-        7. Company culture and values
-        8. Application deadline (if mentioned)
-        9. Any unique benefits or perks
-        10. Application process details
-        
-        Also assess:
-        - How well this matches a Developer Advocate role
-        - Company's focus on developer community
-        - Opportunities for content creation and education
-        
-        Return a structured summary of all this information.
-        """
-        
-        return self.execute_computer_use_task(
-            task=task,
-            max_steps=max_steps,
-            session_id=self.current_session_id
-        )
-    
-    def check_application_status(self, 
-                                 company_portal_url: str,
-                                 login_credentials: Dict[str, str],
-                                 max_steps: int = 30) -> Dict[str, Any]:
-        """
-        Check the status of a job application through a company portal
-        
-        Args:
-            company_portal_url: URL of the company's application portal
-            login_credentials: Dictionary with 'email' and 'password' (if required)
-            max_steps: Maximum steps for Claude to take
-            
-        Returns:
-            Dictionary with application status information
-        """
-        logger.process(f"Checking application status at: {company_portal_url}")
-        
-        email = login_credentials.get('email', '')
-        password = login_credentials.get('password', '')
-        
-        task = f"""
-        Check job application status at: {company_portal_url}
-        
-        Login credentials (if needed):
-        Email: {email}
-        Password: {password}
-        
-        Please:
-        1. Navigate to the application portal
-        2. Log in if required (using provided credentials)
-        3. Find the applications or candidate dashboard
-        4. Look for any submitted applications
-        5. For each application found, note:
-           - Job title and company
-           - Application date
-           - Current status (submitted, reviewing, rejected, etc.)
-           - Any messages or updates
-           - Next steps if mentioned
-        6. Take a screenshot of the status page
-        
-        If login fails or no applications are found, please explain what you observed.
-        """
-        
-        return self.execute_computer_use_task(
-            task=task,
-            max_steps=max_steps,
-            session_id=self.current_session_id
         )
     
     def close_session(self):

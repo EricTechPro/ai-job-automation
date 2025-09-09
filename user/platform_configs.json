@@ -1,0 +1,294 @@
+{
+  "platforms": {
+    "remoteok": {
+      "name": "RemoteOK",
+      "requires_login": false,
+      "search_url": "https://remoteok.io/remote-jobs",
+      "enabled": true,
+      "priority": 1,
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "linux",
+        "locale": "en-US",
+        "screen": {
+          "width": 1440,
+          "height": 900
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 5,
+      "delay_between_actions": "2-8",
+      "session_timeout": 900
+    },
+    "weworkremotely": {
+      "name": "We Work Remotely",
+      "requires_login": false,
+      "search_url": "https://weworkremotely.com/categories/remote-programming-jobs",
+      "enabled": true,
+      "priority": 2,
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "macos",
+        "locale": "en-CA",
+        "screen": {
+          "width": 1680,
+          "height": 1050
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 4,
+      "delay_between_actions": "3-12",
+      "session_timeout": 1200
+    },
+    "angellist": {
+      "name": "AngelList",
+      "requires_login": false,
+      "search_url": "https://angel.co/jobs",
+      "enabled": true,
+      "priority": 3,
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "windows",
+        "locale": "en-US",
+        "screen": {
+          "width": 1366,
+          "height": 768
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 3,
+      "delay_between_actions": "4-10",
+      "session_timeout": 1000
+    },
+    "dice": {
+      "name": "Dice",
+      "requires_login": false,
+      "search_url": "https://www.dice.com/jobs",
+      "enabled": true,
+      "priority": 4,
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "macos",
+        "locale": "en-US",
+        "screen": {
+          "width": 1920,
+          "height": 1200
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 4,
+      "delay_between_actions": "2-7",
+      "session_timeout": 800
+    },
+    "glassdoor": {
+      "name": "Glassdoor",
+      "requires_login": false,
+      "search_url": "https://www.glassdoor.com/Job/jobs.htm",
+      "enabled": true,
+      "priority": 5,
+      "note": "Can work without login but better results with account",
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": true,
+        "proxy_country": "US",
+        "device": "desktop",
+        "operating_system": "windows",
+        "locale": "en-US",
+        "screen": {
+          "width": 1600,
+          "height": 900
+        }
+      },
+      "search_strategy": "hybrid_search",
+      "max_applications_per_session": 2,
+      "delay_between_actions": "5-15",
+      "session_timeout": 1600
+    },
+    "nodesk": {
+      "name": "NoDesk",
+      "requires_login": false,
+      "search_url": "https://nodesk.co/remote-jobs",
+      "enabled": true,
+      "priority": 6,
+      "note": "No signup required, updated daily, remote-first job board",
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "macos",
+        "locale": "en-US",
+        "screen": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 4,
+      "delay_between_actions": "3-8",
+      "session_timeout": 1000
+    },
+    "jobspresso": {
+      "name": "Jobspresso",
+      "requires_login": false,
+      "search_url": "https://jobspresso.co/remote-work",
+      "enabled": true,
+      "priority": 7,
+      "note": "1,000+ curated remote jobs, reviews listings daily",
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "linux",
+        "locale": "en-US",
+        "screen": {
+          "width": 1536,
+          "height": 864
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 3,
+      "delay_between_actions": "4-10",
+      "session_timeout": 900
+    },
+    "workingnomads": {
+      "name": "Working Nomads",
+      "requires_login": false,
+      "search_url": "https://www.workingnomads.co",
+      "enabled": true,
+      "priority": 8,
+      "note": "Worldwide remote positions for digital nomads",
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "windows",
+        "locale": "en-US",
+        "screen": {
+          "width": 1440,
+          "height": 900
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 4,
+      "delay_between_actions": "3-9",
+      "session_timeout": 1100
+    },
+    "remoteco": {
+      "name": "Remote.co",
+      "requires_login": false,
+      "search_url": "https://remote.co/remote-jobs",
+      "enabled": true,
+      "priority": 9,
+      "note": "Hand-curated remote job listings across categories",
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "macos",
+        "locale": "en-CA",
+        "screen": {
+          "width": 1680,
+          "height": 1050
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 3,
+      "delay_between_actions": "4-12",
+      "session_timeout": 1200
+    },
+    "jobgether": {
+      "name": "Jobgether",
+      "requires_login": false,
+      "search_url": "https://jobgether.com/remote-jobs",
+      "enabled": true,
+      "priority": 10,
+      "note": "200,000+ remote jobs, extensive developer categories",
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "windows",
+        "locale": "en-US",
+        "screen": {
+          "width": 1366,
+          "height": 768
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 5,
+      "delay_between_actions": "2-6",
+      "session_timeout": 800
+    },
+    "devremote": {
+      "name": "DevRemote",
+      "requires_login": false,
+      "search_url": "https://devremote.io/remote-developer-jobs",
+      "enabled": true,
+      "priority": 11,
+      "note": "Developer-specific remote jobs, tech-focused",
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "linux",
+        "locale": "en-US",
+        "screen": {
+          "width": 1920,
+          "height": 1200
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 4,
+      "delay_between_actions": "3-8",
+      "session_timeout": 1000
+    },
+    "remotetechjobs": {
+      "name": "Remote Tech Jobs",
+      "requires_login": false,
+      "search_url": "https://www.remotetechjobs.com",
+      "enabled": true,
+      "priority": 12,
+      "note": "37 categories of tech roles, thousands of listings",
+      "anti_detection": {
+        "stealth_mode": true,
+        "use_proxy": false,
+        "device": "desktop",
+        "operating_system": "macos",
+        "locale": "en-US",
+        "screen": {
+          "width": 1440,
+          "height": 900
+        }
+      },
+      "search_strategy": "public_search",
+      "max_applications_per_session": 4,
+      "delay_between_actions": "3-10",
+      "session_timeout": 900
+    }
+  },
+  "global_settings": {
+    "retry_failed_sessions": 2,
+    "session_cleanup_timeout": 300,
+    "respect_robots_txt": true,
+    "shared_job_storage": true,
+    "no_login_mode": true,
+    "skip_credential_validation": true,
+    "optimize_for_public_sites": true
+  },
+  "search_parameters": {
+    "default_location": "Remote",
+    "backup_locations": ["San Francisco", "Seattle", "New York", "Austin"],
+    "job_types": ["Full-time", "Contract"],
+    "experience_levels": ["Mid-level", "Senior"],
+    "salary_min": 150000,
+    "date_posted": "Past week"
+  }
+}

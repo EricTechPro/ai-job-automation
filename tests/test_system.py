@@ -67,33 +67,28 @@ def test_job_tracker():
     
     # Test 1: Add a new job
     logger.step(1, 5, "Adding a new job")
-    job_id = tracker.add_job(
+    job_index = tracker.add_job(
         company="OpenAI",
         job_title="Developer Advocate",
         location="San Francisco, CA",
         job_url="https://openai.com/careers/developer-advocate",
-        description="Help developers build with GPT-4",
-        requirements=["3+ years experience", "Public speaking", "Technical writing"],
-        salary_range="$150k-$200k",
-        remote=True,
-        job_board="LinkedIn"
+        salary_range="$150k-$200k"
     )
-    logger.success(f"Job added with ID: {job_id}")
+    logger.success(f"Job added at index: {job_index}")
     
     # Test 2: Update job status
     logger.step(2, 5, "Updating job status")
-    tracker.update_job_status(job_id, JobStatus.REVIEWED, "Looks like a great match!")
-    tracker.update_job_status(job_id, JobStatus.APPLIED, "Application submitted via LinkedIn")
+    tracker.update_job_status(job_index, JobStatus.REVIEWED, "Looks like a great match!")
+    tracker.update_job_status(job_index, JobStatus.APPLIED, "Application submitted via LinkedIn")
     
     # Test 3: Add another job
     logger.step(3, 5, "Adding another job")
-    job_id2 = tracker.add_job(
+    job_index2 = tracker.add_job(
         company="Google",
         job_title="Technical Evangelist",
         location="Mountain View, CA",
         job_url="https://careers.google.com/jobs/results/",
-        remote=False,
-        job_board="Google Careers"
+        salary_range="$170k-$230k"
     )
     
     # Test 4: Search and retrieve jobs
@@ -219,7 +214,7 @@ async def test_integration():
     
     try:
         # Import the main module
-        from main import DeveloperAdvocateJobBot, test_browser_connection
+        from main import AIJobBot, test_browser_connection
         
         # Test browser connection
         logger.step(1, 3, "Testing browser connection")
@@ -232,7 +227,7 @@ async def test_integration():
         # Initialize bot
         logger.step(2, 3, "Initializing job bot")
         client = Hyperbrowser(api_key=os.getenv('HYPERBROWSER_API_KEY'))
-        bot = DeveloperAdvocateJobBot(client, os.getenv('ANTHROPIC_API_KEY'))
+        bot = AIJobBot(client, os.getenv('ANTHROPIC_API_KEY'))
         
         # Load data
         await bot.load_resume_and_preferences()
@@ -242,16 +237,16 @@ async def test_integration():
         logger.step(3, 3, "Testing job tracker integration")
         
         # Add a test job
-        test_job_id = bot.job_tracker.add_job(
+        test_job_index = bot.job_tracker.add_job(
             company="Test Company",
             job_title="Test Developer Advocate",
             location="Remote",
             job_url="https://example.com/job",
-            job_board="Test Board"
+            salary_range="$140k-$180k"
         )
         
         # Update status
-        bot.job_tracker.update_job_status(test_job_id, JobStatus.REVIEWED)
+        bot.job_tracker.update_job_status(test_job_index, JobStatus.REVIEWED)
         
         # Get statistics
         stats = bot.job_tracker.get_statistics()

@@ -23,6 +23,10 @@ from .job_tracker import (
     JobStatus
 )
 
+from .config import (
+    config
+)
+
 __all__ = [
     # Logger exports
     'get_logger',
@@ -40,5 +44,7 @@ __all__ = [
     'separator',
     # Job tracker exports
     'JobTracker',
-    'JobStatus'
+    'JobStatus',
+    # Config exports
+    'config'
 ]
