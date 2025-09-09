@@ -68,7 +68,7 @@ class AIJobBot:
         logger.process("Loading resume and preferences...")
         
         # Extract text from resume PDF
-        resume_path = Path("user/Eric_Wu_Resume.pdf")
+        resume_path = Path("user/Resume.pdf")
         
         if not resume_path.exists():
             logger.error(f"Resume file not found: {resume_path}")

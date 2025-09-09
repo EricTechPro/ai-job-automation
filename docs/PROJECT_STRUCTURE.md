@@ -15,7 +15,7 @@ ai-browser-automation/
 ├── 👤 User Data (user/)         # Replace with your information
 │   ├── job_preferences.json    # Job search criteria and preferences
 │   ├── personal_info.json      # Personal contact information
-│   └── Eric_Wu_Resume.pdf      # Resume PDF for text extraction (replace with yours)
+│   └── Resume.pdf              # Resume PDF for text extraction (replace with yours)
 │
 ├── 📊 Data Output (data/)       # Auto-created during runtime
 │   ├── job_tracker_data.json   # Persistent job application database

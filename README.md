@@ -4,98 +4,80 @@ Automated job search and application system using Claude Computer Use to intelli
 
 ## 🏗️ System Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────┐
-│                           AI JOB AUTOMATION SYSTEM                                 │
-└─────────────────────────────────────────────────────────────────────────────────────┘
-
-     ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-     │   USER INPUT    │    │   AI CONTEXT    │    │  CONFIGURATION  │
-     │─────────────────│    │─────────────────│    │─────────────────│
-     │• Resume PDF     │───▶│• Resume Text    │    │• Job Preferences│
-     │• Job Preferences│    │• Personal Info  │◀───│• Platform Config│
-     │• Personal Info  │    │• Target Roles   │    │• Anti-Detection │
-     └─────────────────┘    └─────────────────┘    └─────────────────┘
-                                       │
-                                       ▼
-                            ┌─────────────────┐
-                            │   MAIN SYSTEM   │
-                            │   (main.py)     │
-                            │─────────────────│
-                            │• Initialization │
-                            │• AI Context     │
-                            │• Job Tracking   │
-                            └─────────────────┘
-                                       │
-                ┌──────────────────────┼──────────────────────┐
-                │                     │                      │
-                ▼                     ▼                      ▼
-    ┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐
-    │ MULTI-BROWSER   │   │ ANTI-DETECTION  │   │  JOB TRACKER    │
-    │   MANAGER       │   │    CONFIG       │   │                 │
-    │─────────────────│   │─────────────────│   │─────────────────│
-    │• Orchestration  │◀──│• Stealth Mode   │   │• Data Storage   │
-    │• Concurrency    │   │• Device Rotation│   │• Status Updates │
-    │• Session Mgmt   │   │• Delay Control  │   │• JSON Export    │
-    └─────────────────┘   └─────────────────┘   └─────────────────┘
-                │                                          ▲
-                ▼                                          │
-    ┌─────────────────────────────────────────────────────│──┐
-    │             CONCURRENT BROWSER SESSIONS               │  │
-    └─────────────────────────────────────────────────────┼──┘
-                │                                          │
-    ┌───────────┼─────────┬─────────┬─────────┬────────────┼──┐
-    │           │         │         │         │            │  │
-    ▼           ▼         ▼         ▼         ▼            ▼  │
-┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐   │
-│REMOTEOK │ │WWREMOTE │ │ANGELLIST│ │  DICE   │ │  ...    │   │
-│─────────│ │─────────│ │─────────│ │─────────│ │─────────│   │
-│• Public │ │• Public │ │• Public │ │• Public │ │• 12 More│   │
-│• No Auth│ │• No Auth│ │• No Auth│ │• No Auth│ │• Sites  │   │
-└─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘   │
-     │           │         │         │         │              │
-     └───────────┼─────────┼─────────┼─────────┼──────────────┘
-                 │         │         │         │
-                 ▼         ▼         ▼         ▼
-            ┌─────────────────────────────────────┐
-            │           BROWSER AGENT             │
-            │         (browser_agent.py)          │
-            │─────────────────────────────────────│
-            │• Claude Computer Use Integration    │◀─┐
-            │• Intelligent Job Search             │  │
-            │• Form Automation                    │  │
-            │• Result Processing                  │  │
-            └─────────────────────────────────────┘  │
-                             │                       │
-                             ▼                       │
-            ┌─────────────────────────────────────┐  │
-            │         HYPERBROWSER API            │  │
-            │─────────────────────────────────────│  │
-            │• Browser Session Management         │  │
-            │• Claude Computer Use Execution      │──┘
-            │• Anti-Detection Features            │
-            │• Live Browser URLs & Recordings     │
-            └─────────────────────────────────────┘
-                             │
-                             ▼
-            ┌─────────────────────────────────────┐
-            │             RESULTS                 │
-            │─────────────────────────────────────│
-            │• Job Listings Found & Processed     │
-            │• Application Status Updates         │
-            │• Persistent Data Storage            │
-            │• Live Session Monitoring            │
-            └─────────────────────────────────────┘
-                             │
-                             ▼
-                  ┌─────────────────┐
-                  │   OUTPUT DATA   │
-                  │─────────────────│
-                  │• jobs.json      │
-                  │• CSV Export     │
-                  │• Colored Logs   │
-                  │• Live Browser   │
-                  └─────────────────┘
+```mermaid
+graph TD
+    %% User Input Layer
+    A[👤 User Input<br/>• Resume PDF<br/>• Job Preferences<br/>• Personal Info] 
+    B[🧠 AI Context<br/>• Resume Text<br/>• Personal Info<br/>• Target Roles]
+    C[⚙️ Configuration<br/>• Job Preferences<br/>• Platform Config<br/>• Anti-Detection]
+    
+    %% Main System
+    D[🤖 Main System<br/>(main.py)<br/>• Initialization<br/>• AI Context<br/>• Job Tracking]
+    
+    %% Core Components
+    E[🔄 Multi-Browser Manager<br/>• Orchestration<br/>• Concurrency<br/>• Session Mgmt]
+    F[🥷 Anti-Detection Config<br/>• Stealth Mode<br/>• Device Rotation<br/>• Delay Control]
+    G[📊 Job Tracker<br/>• Data Storage<br/>• Status Updates<br/>• JSON Export]
+    
+    %% Browser Sessions
+    H[🌐 Concurrent Browser Sessions]
+    
+    %% Job Platforms  
+    I1[🔍 RemoteOK<br/>Public • No Auth]
+    I2[🔍 WeWorkRemotely<br/>Public • No Auth] 
+    I3[🔍 AngelList<br/>Public • No Auth]
+    I4[🔍 Dice<br/>Public • No Auth]
+    I5[🔍 + 8 More Sites<br/>Public • No Auth]
+    
+    %% Browser Agent
+    J[🤖 Browser Agent<br/>(browser_agent.py)<br/>• Claude Computer Use<br/>• Job Search<br/>• Form Automation<br/>• Result Processing]
+    
+    %% Hyperbrowser API
+    K[🌐 Hyperbrowser API<br/>• Browser Session Mgmt<br/>• Claude Computer Use<br/>• Anti-Detection<br/>• Live URLs & Recordings]
+    
+    %% Results Processing
+    L[📈 Results Processing<br/>• Real Job URL Extraction<br/>• Structured Data Parsing<br/>• Company & Salary Info<br/>• Application Status]
+    
+    %% Output Data
+    M[💾 Output Data<br/>• jobs.json<br/>• CSV Export<br/>• Colored Logs<br/>• Live Browser URLs]
+    
+    %% Connections
+    A --> B
+    C --> B
+    B --> D
+    D --> E
+    D --> F  
+    D --> G
+    E -.-> F
+    E --> H
+    H --> I1
+    H --> I2
+    H --> I3
+    H --> I4
+    H --> I5
+    I1 --> J
+    I2 --> J
+    I3 --> J
+    I4 --> J
+    I5 --> J
+    J <--> K
+    J --> L
+    L --> G
+    L --> M
+    G --> M
+    
+    %% Styling
+    classDef userInput fill:#e1f5fe
+    classDef mainSystem fill:#f3e5f5  
+    classDef processing fill:#fff3e0
+    classDef platforms fill:#e8f5e8
+    classDef output fill:#fce4ec
+    
+    class A,B,C userInput
+    class D mainSystem
+    class E,F,G,J,K,L processing
+    class H,I1,I2,I3,I4,I5 platforms
+    class M output
 ```
 
 ### 🔄 Workflow Process
@@ -186,8 +168,21 @@ HYPERBROWSER_API_KEY=your_key_here
 
 ### 4. Setup Your Profile
 
-1. **Add your resume**: Place your resume PDF in `user/` folder (replace existing file)
-2. **Edit job preferences** (`user/job_preferences.json`):
+**REQUIRED**: You must configure these files before running the application:
+
+1. **Add your resume**: Place your resume PDF as `user/Resume.pdf` (exactly this filename)
+2. **Copy and edit personal info**:
+   ```bash
+   cp user/personal_info.example.json user/personal_info.json
+   # Edit user/personal_info.json with your actual information
+   ```
+3. **Copy and edit job preferences**:
+   ```bash
+   cp user/job_preferences.example.json user/job_preferences.json
+   # Edit user/job_preferences.json with your job criteria
+   ```
+
+Example job preferences (`user/job_preferences.json`):
    ```json
    {
      "target_roles": ["Developer Advocate", "Software Engineer", "DevRel"],
@@ -196,7 +191,8 @@ HYPERBROWSER_API_KEY=your_key_here
      "remote_preference": "remote_or_hybrid"
    }
    ```
-3. **Edit personal info** (`user/personal_info.json`):
+
+Example personal info (`user/personal_info.json`):
    ```json
    {
      "first_name": "Your",
@@ -234,7 +230,7 @@ python3 main.py
 ├── user/                      # Your configuration (replace with your data)
 │   ├── job_preferences.json   # Your job criteria
 │   ├── personal_info.json     # Your contact info
-│   └── Eric_Wu_Resume.pdf     # Your resume (replace this file)
+│   └── Resume.pdf             # Your resume (replace this file)
 ├── data/                      # Application tracking data (auto-created)
 │   ├── job_tracker_data.json  # Job database
 │   └── job_tracker_export.csv # Export file

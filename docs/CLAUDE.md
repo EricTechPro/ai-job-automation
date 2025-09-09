@@ -106,7 +106,7 @@ python3 main.py
 ### User Configuration Files
 - `user/job_preferences.json`: Target roles, companies, salary range, tech stack
 - `user/personal_info.json`: Contact details, current role, work authorization  
-- `user/Eric_Wu_Resume.pdf`: Resume file for text extraction (user should replace)
+- `user/Resume.pdf`: Resume file for text extraction (user should replace)
 - `.env`: API keys for Hyperbrowser and Anthropic
 
 ### Data Files (Auto-created)
@@ -142,7 +142,7 @@ ai-browser-automation/
 ├── user/                      # User configuration (replace with your data)
 │   ├── job_preferences.json   # Job search criteria
 │   ├── personal_info.json     # Personal/contact information
-│   └── Eric_Wu_Resume.pdf     # Resume PDF file
+│   └── Resume.pdf             # Resume PDF file
 ├── data/                      # Application data (auto-created)
 │   ├── job_tracker_data.json  # Job database
 │   └── job_tracker_export.csv # CSV export

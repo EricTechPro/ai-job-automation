@@ -1,0 +1,17 @@
+{
+    "first_name": "John",
+    "last_name": "Smith",
+    "email": "john.smith@example.com",
+    "phone": "+1-555-123-4567",
+    "linkedin": "linkedin.com/in/johnsmith",
+    "github": "github.com/johnsmith",
+    "youtube_main": "youtube.com/@johnsmith",
+    "youtube_secondary": "youtube.com/@johnsmithtech",
+    "portfolio": "johnsmith.dev",
+    "current_location": "San Francisco, CA, USA",
+    "current_role": "Senior Software Engineer",
+    "authorized_to_work": "US Citizen",
+    "visa_sponsorship": "Not required",
+    "start_date": "2 weeks notice",
+    "references": "Available upon request"
+}

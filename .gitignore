@@ -51,5 +51,5 @@ data/test_*.csv
 data/test_screenshot.png
 
 # Sensitive data
-user/Eric_Wu_Resume.pdf
+user/Resume.pdf
 user/personal_info.json

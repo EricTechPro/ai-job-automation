@@ -1,0 +1,68 @@
+{
+  "target_roles": [
+    "Developer Advocate",
+    "Developer Relations Engineer", 
+    "Developer Experience Engineer",
+    "Technical Evangelist",
+    "Community Engineer",
+    "Solutions Engineer",
+    "Technical Writer"
+  ],
+  "preferred_companies": [
+    "OpenAI",
+    "Anthropic", 
+    "Google",
+    "Microsoft",
+    "Meta",
+    "Amazon",
+    "Netflix",
+    "Stripe",
+    "Vercel",
+    "GitHub"
+  ],
+  "company_size_preference": ["startup", "medium", "large"],
+  "excluded_companies": ["Example Corp", "Avoid Inc"],
+  "min_salary": 140000,
+  "max_salary": 250000,
+  "currency": "USD",
+  "remote_preference": "remote_or_hybrid",
+  "location_preferences": [
+    "San Francisco, CA",
+    "New York, NY", 
+    "Seattle, WA",
+    "Austin, TX",
+    "Remote"
+  ],
+  "tech_stack": [
+    "JavaScript",
+    "TypeScript", 
+    "Python",
+    "React",
+    "Node.js",
+    "AWS",
+    "Docker",
+    "Kubernetes",
+    "GraphQL",
+    "REST APIs"
+  ],
+  "industry_preferences": [
+    "AI/ML",
+    "Developer Tools",
+    "Cloud Computing",
+    "SaaS",
+    "Open Source",
+    "EdTech",
+    "FinTech"
+  ],
+  "job_type": "full-time",
+  "experience_level": "senior",
+  "visa_sponsorship_required": false,
+  "willing_to_relocate": true,
+  "notice_period_weeks": 2,
+  "additional_requirements": [
+    "Strong technical communication skills",
+    "Experience with developer communities",
+    "Public speaking experience preferred",
+    "Open source contributions"
+  ]
+}
